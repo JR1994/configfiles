@@ -103,7 +103,7 @@ alternative_order text/plain text/enriched text/html
 bind attach <return> view-mailcap
 
 # GNUPG Config
-source /home/rican-linux/.mutt/gpg.rc
+source /home/user/.mutt/gpg.rc
 set pgp_autosign = yes
 # set pgp_replysignencrypt = yes
 # set pgp_veryfy_sig = yes
