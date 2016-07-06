@@ -1,0 +1,110 @@
+set realname = 'First Last Name'
+set from = 'email address'
+set use_from = 'yes'
+set envelope_from ='yes'
+set imap_user = 'gmail account'
+set imap_pass = 'password'
+set editor = vim
+
+# Folders
+# REMOTE GMAIL FOLDERS
+set folder = 'imaps://imap.gmail.com:993'
+set spoolfile = '+INBOX'
+set postponed ='+[Gmail]/Drafts'
+set trash = '+[Gmail]/Trash'
+
+# Address book using goobook
+set query_command="goobook query %s"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
+
+# Mailboxes to show in the sidebar.
+mailboxes ="INBOX" ='[Gmail]/Drafts' ='[Gmail]/Sent Mail' ='label'
+
+# Local cache
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+
+#smtp
+set smtp_url = 'smtp://gmail account:587/'
+set smtp_pass = 'password'
+set ssl_starttls = yes
+set ssl_force_tls = yes
+# SECURING
+set move = no  #Stop asking to move read messages to mbox!
+set imap_keepalive = 900
+
+# View URLs inside Mutt
+macro index \cb   "|urlview\n"
+macro pager \cb   "|urlview\n"
+
+# Colors
+color hdrdefault blue black
+color quoted blue black
+color signature blue black
+color attachment red black
+color prompt brightmagenta black
+color message brightred black
+color error brightred black
+color indicator black red
+color status brightgreen blue
+color tree white black
+color normal white black
+color markers red black
+color search white black
+color tilde brightmagenta black
+color index blue black ~F
+color index red black "~N|~O"
+
+# Sidebar Patch --------------------------------------
+set sidebar_delim   = '│'
+set sidebar_visible = yes
+#set sidebar_width   = 24
+set sidebar_shortpath = yes
+
+# Header Options -------------------------------------
+ignore *                                # ignore all headers
+unignore from: to: cc: bcc: date: subject:   # show only these
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: bcc: date: subject:  # and in this order
+
+#Shortcuts
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+macro index b '<enter-command>toggle sidebar_visible<enter>'
+macro pager b '<enter-command>toggle sidebar_visible<enter>'
+bind index B bounce-message
+
+# Index View Options ---------------------------------
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+# Pager View Options ---------------------------------
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+# Pager Key Bindings ---------------------------------
+
+# View attachments properly.
+bind attach <return> view-mailcap
+
+# GNUPG Config
+source /home/rican-linux/.mutt/gpg.rc
+set pgp_autosign = yes
+# set pgp_replysignencrypt = yes
+# set pgp_veryfy_sig = yes
+set pgp_sign_as = gpg pub key
